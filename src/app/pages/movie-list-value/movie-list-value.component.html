@@ -1,0 +1,12 @@
+<div class="container bg-dark pt1 pb1">
+    <app-movies [isLoading]="isLoading" [movieList]="movieList" [movieType]="movieType"></app-movies>
+    <div class="load-more-container fit m1">
+        <button 
+            *ngIf="!isLoading"
+            class="load-more-btn" 
+            mat-flat-button 
+            color="primary"
+            (click)="onLoadMore()">Load More</button>
+    </div>
+</div>
+

@@ -1,0 +1,46 @@
+<div class="container p1">
+        <mat-toolbar [style.height]="100 + 'px'">
+            <div class="input-container fit">
+                <mat-form-field>
+                    <input 
+                        #searchMovieInput
+                        matInput 
+                        placeholder="Search Movie"
+                        name="search"/>
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+            </div>
+        </mat-toolbar>
+        <mat-card *ngIf="initialLoad === false;else showSearchPlaceholder">
+            <mat-card-content *ngIf="!noResultsFound; else showNoResult">
+                <app-movies [isLoading]="isLoading" [movieType]="'search'"[movieList]="movies"></app-movies>
+                <button
+                    *ngIf="totalPages !== page"
+                    class="load-more-btn" 
+                    mat-flat-button 
+                    color="primary"
+                    (click)="onLoadMore()">Load More</button>
+            </mat-card-content>
+            <ng-template #showNoResult>
+                <div [style.min-height.px]="windowHeight">
+                    <h1>Sorry no results found...</h1>
+                </div>
+            </ng-template>
+        </mat-card>
+        <ng-template #showSearchPlaceholder>
+            <mat-card [style.min-height.px]="windowHeight">  
+                <mat-card-content>
+                    <mat-card class="sm-col-7 bg-dark mx-auto">
+                        <mat-card-content>
+                            <h2>Search your movies here...</h2>
+                            <mat-grid-list cols="2" rowHeight="1:1">
+                                <mat-grid-tile *ngFor="let placeholder of moviePlaceholders">
+                                    <img class="fit" [src]="movieImageURL + 'w500' + placeholder.poster_path"/>
+                                </mat-grid-tile>
+                              </mat-grid-list>
+                        </mat-card-content>
+                    </mat-card>
+                </mat-card-content>
+            </mat-card>
+        </ng-template>
+</div>

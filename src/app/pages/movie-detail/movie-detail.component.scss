@@ -1,0 +1,22 @@
+.movie-trailer-btn {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.movie-detail-score {
+    position: absolute;
+    margin-left: 5px;
+    margin-top: -4px;
+}
+
+
+.movie-trailer-list {
+    width: 300px;
+}
+
+@media only screen and (min-width: 1000px) {
+    .movie-trailers {
+        min-height: 680px;
+    }
+  }

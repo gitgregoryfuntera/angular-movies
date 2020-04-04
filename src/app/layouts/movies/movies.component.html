@@ -1,0 +1,77 @@
+<div *ngIf="isLoading; else showContent">
+    <mat-grid-list rowHeight="1:2" [cols]="colsValue">
+        <mat-grid-tile *ngFor="let placeholders of [0,1,2,3,4,5,6]">
+            <div class="sm-col-6">
+                <ngx-skeleton-loader
+                    count="1"
+                    [theme]="{ 
+                        height: '250px',
+                        width: '500px',
+                        'background-color': 'rgb(45, 40, 40)'
+                }"></ngx-skeleton-loader>
+                <mat-card-content>
+                    <ngx-skeleton-loader
+                        count="1"
+                        [theme]="{ 
+                            height: '100px',
+                            width: '500px',
+                            'background-color': 'rgb(45, 40, 40)'
+                        }"></ngx-skeleton-loader>
+                </mat-card-content>
+                <mat-card-actions>
+                    <ngx-skeleton-loader
+                    count="1"
+                    [theme]="{ 
+                        height: '30px',
+                        width: '60px',
+                        'background-color': 'rgb(45, 40, 40)'
+                    }"></ngx-skeleton-loader>
+                </mat-card-actions>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
+<ng-template #showContent>
+    <mat-grid-list [@fadeInAnimation]="'in'" rowHeight="1:2" [cols]="colsValue">
+        <mat-grid-tile *ngFor="let movie of movieList">
+            <div class="p3">
+                <img 
+                    image-loader
+                    [default]="'assets/default-fallback-image.png'"
+                    [imgClass]="'fit pb1'" 
+                    [src]="movieImageURL + 'w200' + movie.poster_path"
+                    [image]="movieImageURL + 'w500' + movie.poster_path"
+                />
+                <mat-card-content>
+                    <h1 class="movie-title">{{ movie.title }}</h1>
+                    <div class="clearfix">
+                        <div class="col left">
+                            <label class="movie-vote-average">Vote Average:</label>
+                        </div>
+                        <div class="col">
+                            <mat-chip-list class="movie-vote-average-chip">
+                                <mat-chip color="primary" selected>{{ movie.vote_average | voteValue }}</mat-chip>
+                            </mat-chip-list>
+                        </div>
+                    </div>
+                    <div class="clearfix mt1">
+                        <div class="col">
+                            <label class="movie-release-date">Release Date: </label>
+                        </div>
+                        <div class="col">
+                            <label class="movie-release-date-value"><b>{{ movie.release_date | date: 'MMM d, y' }}</b></label>
+                        </div>
+                    </div>
+                    <p class="movie-overview">{{ movie.overview }}</p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button 
+                        mat-stroked-button color="primary" 
+                        [routerLink]="['/movie_list', movieType ,'list', movie.id]" 
+                        routerLinkActive="router-link-active"
+                    >More</button>
+                </mat-card-actions>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>    
+</ng-template>

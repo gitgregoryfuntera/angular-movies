@@ -1,1 +1,63 @@
+@import '~@angular/material/theming';
 /* You can add global styles to this file, and also import other style files */
+// Plus imports for other components in your app.
+
+
+$dark-app-primary: mat-palette($mat-deep-purple);
+$dark-app-accent:  mat-palette($mat-grey, A200, A100, A400);
+$dark-app-theme:   mat-dark-theme($dark-app-primary, $dark-app-accent);
+
+// Include the default theme styles.
+@include angular-material-theme($dark-app-theme);
+
+html, body { 
+    height: 100%; 
+}
+
+body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+.body-container {
+    max-width: 1080px;
+    margin: auto;
+}
+
+:root {
+    --swiper-theme-color: white !important; 
+    --swiper-navigation-size: 20px !important;
+}
+
+.bg-dark {
+    background-color: #232020;
+}
+
+.bg-black {
+    background-color: #110f15;
+}
+
+.bg-primary {
+    background-color: #673AB7;
+}
+
+.bg-warn {
+    background-color:#f44336;
+}
+
+.text-color-primary {
+    color: #673AB7;
+}
+
+img {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+@media only screen and (min-width: 1025px) {
+    body {
+        zoom: 150%;
+    }
+}

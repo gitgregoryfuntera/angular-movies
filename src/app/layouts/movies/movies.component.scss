@@ -1,0 +1,36 @@
+.movie-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 18px;
+}
+
+.movie-vote-average-chip {
+    position: relative;
+    top: -7px;
+    left: 5px;
+}
+
+.movie-overview {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5em;
+}
+
+.load-more-btn {
+    width: 100%;
+}
+
+@media only screen and (min-width: 1000px) {
+    .movie-overview,
+    .movie-release-date-value,
+    .movie-release-date,
+    .movie-vote-average {
+        font-size: 14px;
+    }
+}

@@ -1,0 +1,146 @@
+<div class="body-container">
+    <div *ngIf="isLoading; else showContent" class="content-skeleton-loader">
+        <div *ngIf="!mobileView;else showNonMobileLoader" class="">
+            <div>
+                <ngx-skeleton-loader
+                    count="1"
+                    [theme]="{ 
+                        height: '400px',
+                        'background-color': 'rgb(45, 40, 40)'
+                    }"></ngx-skeleton-loader>
+            </div>
+        </div>
+        <ng-template #showNonMobileLoader>
+            <div>
+                <ngx-skeleton-loader
+                    count="1"
+                    [theme]="{ 
+                        height: '600px',
+                        'background-color': 'rgb(45, 40, 40)'
+                    }"></ngx-skeleton-loader>
+            </div>
+        </ng-template>
+    </div>
+    <ng-template #showContent>
+        <div [@fadeInAnimation]="'in'" class="content-container">
+            <swiper class="swiper-container" 
+                fxFlex="auto" 
+                [config]="config" 
+                (indexChange)="onIndexChange($event)" 
+                (swiperTransitionStart)="onSwiperEvent('transitionStart')" 
+                (swiperTransitionEnd)="onSwiperEvent('transitionEnd')">
+                <div *ngFor="let movie of movies" class="swiper-slide">
+                    <mat-card class="bg-dark" *ngIf="!mobileView; else showNonMobileSlider">
+                        <img 
+                            image-loader
+                            [image]="movieImageURL + 'w500' + movie.backdrop_path"
+                            [imgClass]="'movie-slider-img'" 
+                            [default]="'assets/default-fallback-image.png'"
+                            [src]="movieImageURL + 'w200' + movie.backdrop_path"
+                        />
+                        <div class="movie-slider-badge-container absolute top-0 mt1">
+                            <label class="movie-label-badge rounded caps">{{ movieType }}
+                                <mat-icon>movie_filter</mat-icon>
+                            </label>
+                        </div>
+                        <mat-card-content>
+                            <h2 class="m1 movie-slider-title">{{ movie.title }}</h2>
+                            <div class="max-width-10 mx-auto">
+                                <div class="clearfix">
+                                    <div class="col p1">
+                                        <label>Vote Average:</label>
+                                    </div>
+                                    <div class="col">
+                                        <mat-chip-list class="movie-slider-score">
+                                            <mat-chip color="primary" selected>{{ movie.vote_average | voteValue }}</mat-chip>
+                                        </mat-chip-list>
+                                    </div>
+                                </div>
+                                <div class="clearfix">
+                                    <div class="col p1">
+                                        <label>Release Date:</label>
+                                    </div>
+                                    <div class="col p1">
+                                        <label><b>{{ movie.release_date | date: 'MMM d, y' }}</b></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="m1">Overview:</h4>
+                            <p class="m1 movie-slider-overview">{{ movie.overview }}</p>
+                        </mat-card-content>
+                        <mat-card-actions class="pl1">
+                            <button
+                                [routerLink]="['/movie_list', movieType, 'list', movie.id]" 
+                                mat-stroked-button 
+                                color="primary">More</button>
+                        </mat-card-actions>
+                    </mat-card>
+    
+                    <ng-template #showNonMobileSlider>
+                        <mat-grid-list cols="2" rowHeight="2:1">
+                            <mat-grid-tile class="bg-dark" 
+                                [rowspan]="3">
+                                <img
+                                    image-loader
+                                    [imgClass]="'movie-slider-img'" 
+                                    [default]="'assets/default-fallback-image.png'"
+                                    [src]="movieImageURL + 'w200' + movie.poster_path"
+                                    [image]="movieImageURL + 'w500' + movie.poster_path"
+                                />
+                                <div class="movie-slider-badge-container absolute top-0 mt1">
+                                    <label class="movie-label-badge rounded caps">{{ movieType }}
+                                        <mat-icon>movie_filter</mat-icon>
+                                    </label>
+                                </div>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="bg-dark"
+                                [rowspan]="3">
+                                <div class="max-width-10 mx-auto">
+                                    <div class="clearfix">
+                                        <div class="col m1 left">
+                                            <h1 class="m0 movie-slider-title-nonmobile">{{ movie.title }}</h1>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <div class="col p1 left">
+                                            <label class="movie-slider-vote-avg-nonmobile">Vote Average:</label>
+                                        </div>
+                                        <div class="col">
+                                            <div class="score-chips">
+                                                <span class="score">{{ movie.vote_average | voteValue }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <div class="col p1">
+                                            <label class="movie-slider-release-date-nonmobile">Release Date:</label>
+                                        </div>
+                                        <div class="col p1">
+                                            <label class="movie-slider-release-date-value-nonmobile"><b>{{ movie.release_date | date: 'MMM d, y' }}</b></label>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <div class="col p1">
+                                            <h4 class="m0 movie-slider-overview-nonmobile">Overview:</h4>
+                                        </div>
+                                        <div class="col p1">
+                                            <p class="m0 movie-slider-overview nonmobile-overview">{{ movie.overview }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <div class="col p1">
+                                            <button
+                                                [routerLink]="['/movie_list', movieType, 'list', movie.id]" 
+                                                mat-stroked-button 
+                                                color="primary">More</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </ng-template>
+                </div>
+            </swiper>
+        </div>
+    </ng-template>
+</div>

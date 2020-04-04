@@ -1,0 +1,220 @@
+<div class="body-container">
+    <div *ngIf="isLoadingSliderMovies && isLoadingInitFetcher; else showContent">
+        <div class="hero-loader">
+            <div>
+                <ngx-skeleton-loader
+                    count="1"
+                    [theme]="{ 
+                        height: '400px',
+                        'background-color': 'rgb(45, 40, 40)'
+                    }"></ngx-skeleton-loader>
+            </div>
+        </div>
+        <div class="movie-list-container">
+            <mat-card class="card-movies">
+                <mat-card-content class="m1 pb1">
+                    <br>
+                    <mat-card class="bg-dark">
+                        <h1 class="mat-headline">
+                            <ngx-skeleton-loader
+                                count="1"
+                                [theme]="{ 
+                                    height: '50px',
+                                    'background-color': 'rgb(45, 40, 40)'
+                                }">
+                            </ngx-skeleton-loader>
+                        </h1>
+                        <mat-grid-list *ngIf="!isLoadingInitFetcher" 
+                            [cols]="nowPlayingGridCols" 
+                            [rowHeight]="nowPlayingGridHeight"
+                            gutterSize="2.3px">
+                                <mat-grid-tile *ngFor="let i of [1,2,3,4,5,6,7,8,9]">
+                                    <div class="bg-dark m1">
+                                        <ngx-skeleton-loader
+                                            count="1"
+                                            [theme]="{ 
+                                                height: '500px',
+                                                width: '500px',
+                                                'background-color': 'rgb(45, 40, 40)'
+                                            }">
+                                        </ngx-skeleton-loader>
+                                        <mat-card-content>
+                                            <h2 class="m0">
+                                                <ngx-skeleton-loader
+                                                    count="1"
+                                                    [theme]="{ 
+                                                        height: '20px',
+                                                        'background-color': 'rgb(45, 40, 40)'
+                                                    }">
+                                                </ngx-skeleton-loader>
+                                            </h2>
+                                            <p class="m0">
+                                                <ngx-skeleton-loader
+                                                    count="1"
+                                                    [theme]="{ 
+                                                        height: '70px',
+                                                        'background-color': 'rgb(45, 40, 40)'
+                                                    }">
+                                                </ngx-skeleton-loader>
+                                            </p>
+                                        </mat-card-content>
+                                        <mat-card-actions>
+                                            <div class="m0">
+                                                <ngx-skeleton-loader
+                                                    count="1"
+                                                    [theme]="{ 
+                                                        height: '40px',
+                                                        width: '250px',
+                                                        'background-color': 'rgb(45, 40, 40)'
+                                                    }">
+                                                </ngx-skeleton-loader>
+                                            </div>
+                                        </mat-card-actions>
+                                    </div>
+                                </mat-grid-tile>
+                        </mat-grid-list>
+                    </mat-card>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+    <ng-template #showContent>
+        <div [@fadeInAnimation]="'in'" *ngIf="!isLoadingSliderMovies" class="content-container">
+            <swiper class="swiper-container" 
+                fxFlex="auto" 
+                [config]="config" 
+                (indexChange)="onIndexChange($event)" 
+                (swiperTransitionStart)="onSwiperEvent('transitionStart')" 
+                (swiperTransitionEnd)="onSwiperEvent('transitionEnd')">
+                <div *ngFor="let movie of movies" class="swiper-slide">
+                    <div class="movie-slider-container">
+                        <img image-loader
+                            [imgClass]="'movie-backdrop'" 
+                            [src]="movieImageURL + 'w92' + movie.backdrop_path" 
+                            [image]="movieImageURL + 'w' + imageWidth + movie.backdrop_path"
+                            [default]="'assets/default-fallback-image.png'"
+                        />
+                        <div class="movie-title-container" [routerLink]="['/movie_list/now_playing/list/', movie.id]"> 
+                            <span class="movie-title">{{ movie.title }}</span>
+                        </div>
+                    </div>
+                </div>
+            </swiper>
+        </div>
+        <div  [@fadeInAnimation]="'in'" class="movie-list-container">
+            <mat-card class="card-movies">
+                <mat-card-content class="m1 pb1">
+                    <br>
+                    <mat-card class="bg-dark">
+                        <h1 class="mat-headline">
+                            <mat-icon>movie</mat-icon> Now Playing
+                            <button class="right" 
+                                mat-raised-button 
+                                color="primary"
+                                routerLink="/movie_list/now_playing/list">View All</button>
+                        </h1>
+                        <mat-grid-list *ngIf="!isLoadingInitFetcher" 
+                            [cols]="nowPlayingGridCols" 
+                            [rowHeight]="nowPlayingGridHeight"
+                            gutterSize="2.3px">
+                            <mat-grid-tile *ngFor="let movie of nowPlayingList">
+                                <div class="bg-dark m1">
+                                    <img image-loader
+                                        [src]="movieImageURL + 'w92' + movie.poster_path"
+                                        [image] = "movieImageURL + 'w500' + movie.poster_path"
+                                        [default]="'assets/default-fallback-image.png'">
+                                    <mat-card-content>
+                                        <h2 class="m0">Overview:</h2>
+                                        <p class="movie-overview">{{ movie.overview }}</p>
+                                        <mat-chip-list>
+                                            <label>Vote Average:</label> 
+                                            <mat-chip color="primary" selected="true">{{ movie.vote_average | voteValue }}</mat-chip>
+                                        </mat-chip-list>
+                                    </mat-card-content>
+                                    <mat-card-actions>
+                                        <button 
+                                            mat-stroked-button color="primary" 
+                                            [routerLink]="['/movie_list/now_playing/list', movie.id]">More</button>
+                                    </mat-card-actions>
+                                </div>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </mat-card>
+                    <br>
+                    <mat-card class="bg-dark">
+                        <h1 class="mat-headline">
+                            <mat-icon>whatshot</mat-icon> Popular
+                            <button class="right" 
+                                mat-raised-button 
+                                color="primary"
+                                routerLink="/movie_list/popular/list">View All</button>
+                        </h1>
+                        <mat-card-content>
+                            <mat-grid-list *ngIf="!isLoadingInitFetcher" 
+                                [cols]="popularGridCols" 
+                                [rowHeight]="popularGridHeight"
+                                gutterSize="5px">
+                                <mat-grid-tile class="mat-elevation-z8 rounded" 
+                                    *ngFor="let movie of popularList; let i = index"
+                                    [rowspan]="popularGridTile[i].rowSpan"
+                                    [colspan]="popularGridTile[i].colSpan">
+                                    <div class="popular-movie-image-container"  [routerLink]="['/movie_list/popular/list', movie.id]">
+                                        <img image-loader 
+                                            [default]="'assets/default-fallback-image.png'"
+                                            [src]="movieImageURL + 'w92' + determinImageType(popularGridTile[i].imageFlag, movie)"
+                                            [image] = "movieImageURL + popularGridTile[i].imageWidth + determinImageType(popularGridTile[i].imageFlag, movie)"
+                                            [ngStyle]="{'margin-bottom': popularGridTile[i].imageFlag === 0 ? '145px' : ''}"
+                                        />
+                                        <div class="popular-movie-title">
+                                            <mat-icon aria-hidden="false" color="primary">visibility</mat-icon>
+                                            <p class="m0">{{ movie.title }}</p>
+                                        </div>
+                                        <mat-card-content *ngIf="popularGridTile[i].imageFlag === 0">
+                                            <p class="movie-overview popular-movie-overview-title"><b>Overview:</b></p>
+                                            <p class="movie-overview popular-movie-overview m1">{{ movie.overview }}</p>
+                                        </mat-card-content>
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </mat-card-content>
+                    </mat-card>
+                    <br>
+                    <mat-card class="bg-dark">
+                        <h1 class="mat-headline">
+                            <mat-icon>event</mat-icon> Upcoming
+                            <button class="right" 
+                                mat-raised-button 
+                                color="primary"
+                                routerLink="/movie_list/upcoming/list">View All</button>
+                        </h1>
+                        <mat-card-content>
+                            <mat-grid-list
+                                [cols]="upComingGridCols"
+                                [rowHeight]="upComingGridHeight">
+                                <mat-grid-tile *ngFor="let movie of upComingList">
+                                    <div class="upcoming-movie-container m1 bg-black">
+                                        <div class="upcoming-movie-image">
+                                            <img image-loader
+                                                [default]="'assets/default-fallback-image.png'"
+                                                [src]="movieImageURL + 'w92' + movie.poster_path"
+                                                [image]="movieImageURL + 'w500' + movie.poster_path"
+                                            />
+                                        </div>
+                                        <div class="upcoming-movie-content">
+                                            <label class="m1"><b>Release Date:</b> {{ movie.release_date }}</label>
+                                            <button mat-mini-fab [routerLink]="['/movie_list/upcoming/list', movie.id]">
+                                                <mat-icon>movie_filter</mat-icon>
+                                            </button>
+                                            <h4 class="m0 m1">Overview:</h4>
+                                            <p class="movie-overview m0 m1">{{ movie.overview }}</p>
+                                        </div>
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </mat-card-content>
+                    </mat-card>
+                </mat-card-content> 
+            </mat-card>
+        </div>
+    </ng-template>
+</div>

@@ -1,0 +1,82 @@
+<div class="page-container">
+    <mat-toolbar color="warn">
+        <mat-toolbar-row>
+          <span>{{ movieDetail?.title }}</span>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div *ngIf="isLoading; else showContent">
+      <div class="movie-detail-container">
+        <div fxLayout="row wrap" fxLayoutAlign="start center">
+          <div class="mx-auto">
+            <ngx-skeleton-loader
+                count="1"
+                [theme]="{ 
+                    height: '400px',
+                    width: '700px',
+                    'background-color': 'rgb(45, 40, 40)'
+                }"></ngx-skeleton-loader>
+            <div class="overview" *ngFor="let loader of [0,1,2]">
+              <ngx-skeleton-loader
+                count="1"
+                [theme]="{ 
+                  height: '20px',
+                  width: '700px',
+                  'background-color': 'rgb(45, 40, 40)'
+                }"></ngx-skeleton-loader>
+            </div>
+            <div class="overview">
+              <ngx-skeleton-loader
+                count="1"
+                [theme]="{ 
+                  height: '20px',
+                  width: '400px',
+                  'background-color': 'rgb(45, 40, 40)'
+                }"></ngx-skeleton-loader>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #showContent>
+      <div [@fadeInAnimation]="'in'" class="movie-detail-container"> 
+        <div fxLayout="row wrap" fxLayoutAlign="start center">
+          <div class="youtube-video-container mx-auto">
+            <youtube-player *ngIf="showPlayer" [width]="videoWidth" [videoId]="videoID"></youtube-player>
+            <div class="overview-container p1" [style.width]="(videoWidth - 15) + 'px'">
+              <h3>Release Date: <span>{{ movieDetail?.release_date | date: 'MMM d, y' }}</span></h3>
+              <h3>Vote Average: 
+                <mat-chip-list class="movie-detail-score">
+                  <mat-chip color="primary" selected>{{ movieDetail?.vote_average | voteValue }}</mat-chip>
+                </mat-chip-list>
+              </h3>
+              <h3>Overview:</h3>
+              <p>{{ movieDetail?.overview }}</p>
+              <h3>Genres:</h3>
+              <div class="genre-container">
+                <mat-chip-list>
+                  <mat-chip *ngFor="let genre of movieDetail?.genres">
+                    <mat-icon>label</mat-icon>
+                    <span>{{ genre.name }}</span>
+                  </mat-chip>
+                </mat-chip-list>
+              </div>
+            </div>
+          </div>
+  
+          <div class="movie-trailers mx-auto" *ngIf="movieVideos?.results.length">
+            <mat-list class="movie-trailer-list">
+              <h3 class="m1">Trailers</h3>
+              <mat-list-item *ngFor="let video of movieVideos?.results; let i = index">
+                <button
+                  class="movie-trailer-btn"
+                  mat-raised-button 
+                  (click)="onViewTrailer(video.key, i)"
+                  [color]="selectedBtnTrailer(i) ? 'warn': ''">{{ video.name }}</button>
+              </mat-list-item>
+            </mat-list>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+</div>
+
