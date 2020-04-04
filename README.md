@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Live Demo: https://angular-movies.netlify.com/#/home
 
-![](demo/angular-movie-demo.gif)
+![https://angular-movies.netlify.com/#/home](demo/angular-movie-demo.gif)
 
 ## Development server
 
