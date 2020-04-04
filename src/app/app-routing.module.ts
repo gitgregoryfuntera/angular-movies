@@ -26,6 +26,7 @@ const routes: Routes = [
       ]
   },
   {component: SearchComponent, path: 'search'},
+  {path: '**', component: InvalidPageComponent}
 ];
 
 @NgModule({
