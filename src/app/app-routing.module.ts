@@ -10,7 +10,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: '**', redirectTo: 'home'},
   {component: HomeComponent, path: 'home'},
   {
       path: 'movie_list/:type', 
