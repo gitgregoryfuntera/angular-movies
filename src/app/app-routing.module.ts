@@ -9,6 +9,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 
 const routes: Routes = [
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
+  {path: '**', redirectTo: 'home'},
   {component: HomeComponent, path: 'home'},
   {
       path: 'movie_list/:type', 
@@ -25,8 +27,6 @@ const routes: Routes = [
       ]
   },
   {component: SearchComponent, path: 'search'},
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: '**', component: InvalidPageComponent}
 ];
 
 @NgModule({
