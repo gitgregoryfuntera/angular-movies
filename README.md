@@ -2,6 +2,10 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.25.
 
+Live Demo: https://angular-movies.netlify.com/#/home
+
+![https://angular-movies.netlify.com/#/home](demo/angular-movie-demo.gif)
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
